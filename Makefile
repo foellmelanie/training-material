@@ -10,7 +10,6 @@ REPO=$(shell echo "$${ORIGIN_REPO:-galaxyproject/training-material}")
 BRANCH=$(shell echo "$${ORIGIN_BRANCH:-master}")
 MINICONDA_URL=https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 SHELL=bash
-CONDA_VERSION := $(shell conda --version 2>/dev/null)
 RUBY_VERSION=2.4.4
 
 ifeq ($(shell uname -s),Darwin)
@@ -18,9 +17,14 @@ ifeq ($(shell uname -s),Darwin)
 	MINICONDA_URL=https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 endif
 
+CONDA=$(shell which conda)
+ifeq ($(CONDA),)
+	CONDA=${HOME}/miniconda3/bin/conda
+endif
+
 default: help
 
-serve: ## run a local server
+serve: ## run a local server}
 	${JEKYLL} serve -d _site/training-material
 .PHONY: serve
 
@@ -94,19 +98,12 @@ clean: ## clean up junk files
 .PHONY: clean
 
 install-conda: ## install Miniconda
-ifndef CONDA_VERSION
 	wget $(MINICONDA_URL) -O miniconda.sh
 	bash miniconda.sh -b
-	export PATH="$(HOME)/miniconda/bin:$(PATH)"
-	conda config --system --add channels conda-forge
-	conda config --system --add channels defaults
-	conda update -q conda
-	conda info -a
-endif
 .PHONY: install-conda
 
-create-env: install-conda ## create conda environment
-	conda env create -f environment.yml -q --force
+create-env: ## create conda environment
+	${CONDA} env create -f environment.yml -q --force
 .PHONY: create-env	
 
 install: ## install dependencies
