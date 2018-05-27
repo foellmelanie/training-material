@@ -17,3 +17,4 @@ dependencies:
   - libiconv
   - pandas=0.20.3
   - requests=2.18.4
+  - ephemeris
