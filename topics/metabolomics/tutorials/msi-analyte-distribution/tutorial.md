@@ -435,6 +435,3 @@ To get an idea about the distribution of capsaicin in the chilli we will plot it
 
 ![overlay images](../../images/msi_distribution_overlay_images.png "Distribution image for capsaicin and overlay of the three analytes")
 
-# Conclusion
-{:.no_toc}
-
